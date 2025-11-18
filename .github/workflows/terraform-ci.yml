@@ -1,0 +1,36 @@
+name : Terraform CI
+
+on:
+  push:
+    paths:
+      - 'aws-infra-terraform/aws-2tier/**'
+  pull_request:
+    paths:
+      - 'aws-infra-terraform/aws-2tier/**'
+
+jobs:
+  terraform-ci:  
+    name: 'Terraform Validate and Plan'
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: aws-infra-terraform/aws-2tier
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.5.6
+
+      - name: Terraform fmt checkout
+        run: terraform fmt -check -recursive
+
+      - name: Terraform Validate
+        run: |
+          cd aws-2tier/envs/dev
+          terraform init -backend=false
+          terraform validate
