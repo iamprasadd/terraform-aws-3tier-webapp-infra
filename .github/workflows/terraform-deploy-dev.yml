@@ -39,7 +39,7 @@ jobs:
 
       - name: Terraform plan
         if: github.event.inputs.action == 'plan'
-        run: terraform plan
+        run: terraform plan -lock=false
 
       - name: Terraform apply
         if: github.event.inputs.action == 'apply'
