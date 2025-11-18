@@ -1,0 +1,10 @@
+region         = "us-east-1"
+profile        = "default"
+project        = "twotier-dev"
+vpc_cidr       = "10.10.0.0/16"
+azs            = ["us-east-1a", "us-east-1b"]
+public_subnets = ["10.10.0.0/24", "10.10.1.0/24"]
+app_subnets    = ["10.10.10.0/24", "10.10.11.0/24"]
+data_subnets   = ["10.10.20.0/24", "10.10.21.0/24"]
+db_password    = "SomeStrongPassword123!"
+db_username    = "appdb"

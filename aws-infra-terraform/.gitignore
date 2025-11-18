@@ -10,7 +10,6 @@ crash.log
 crash.*.log
 
 # Override files (local only)
-*.tfvars
 *.tfvars.json
 override.tf
 override.tf.json
