@@ -13,7 +13,7 @@ variable "vpc_cidr" {
 
 variable "azs" {
   type = list(string)
-  
+
 }
 variable "public_subnets" {
   type = list(string)
@@ -23,33 +23,33 @@ variable "app_subnets" {
 }
 variable "data_subnets" {
   type = list(string)
-}   
+}
 
 variable "instance_type" {
-  type = string
+  type    = string
   default = "t3.micro"
 }
 variable "key_name" {
-  type = string
+  type    = string
   default = null
 }
 variable "min_size" {
-  type = number 
+  type    = number
   default = 1
 }
-variable "max_size" {     
-  type = number
+variable "max_size" {
+  type    = number
   default = 2
 }
 variable "desired_size" {
-  type = number
+  type    = number
   default = 1
-}  
+}
 variable "db_username" {
   type = string
 }
 variable "db_password" {
-  type = string
+  type      = string
   sensitive = true
 }
- 
+

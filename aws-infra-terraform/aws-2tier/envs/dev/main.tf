@@ -1,70 +1,70 @@
 module "vpc" {
-  source = "../../modules/vpc"
-  region = "${var.region}"
-  project = var.project
+  source   = "../../modules/vpc"
+  region   = var.region
+  project  = var.project
   vpc_cidr = var.vpc_cidr
 }
 
 module "subnets" {
-  source = "../../modules/subnets"
-  project = var.project
-  azs = var.azs
-  vpc_id = module.vpc.vpc_id
+  source       = "../../modules/subnets"
+  project      = var.project
+  azs          = var.azs
+  vpc_id       = module.vpc.vpc_id
   public_cidrs = var.public_subnets
-  app_cidrs = var.app_subnets
-  data_cidrs = var.data_subnets
+  app_cidrs    = var.app_subnets
+  data_cidrs   = var.data_subnets
 }
 
 module "routing" {
-  source = "../../modules/routing"
-  vpc_id = module.vpc.vpc_id
-  igw_id = module.vpc.igw_id
-  project = var.project
+  source            = "../../modules/routing"
+  vpc_id            = module.vpc.vpc_id
+  igw_id            = module.vpc.igw_id
+  project           = var.project
   public_subnet_ids = module.subnets.public_subnet_ids
-  app_subnet_ids = module.subnets.app_subnet_ids
-  data_subnet_ids = module.subnets.data_subnet_ids
+  app_subnet_ids    = module.subnets.app_subnet_ids
+  data_subnet_ids   = module.subnets.data_subnet_ids
 }
 
 module "security_groups" {
-  source = "../../modules/security-groups"
+  source  = "../../modules/security-groups"
   project = var.project
-  vpc_id = module.vpc.vpc_id
+  vpc_id  = module.vpc.vpc_id
 }
 
 module "alb_asg" {
-  source = "../../modules/alb_asg"
+  source  = "../../modules/alb_asg"
   project = var.project
-  region = var.region
+  region  = var.region
 
   public_subnet_ids = module.subnets.public_subnet_ids
-  app_subnet_ids = module.subnets.app_subnet_ids
+  app_subnet_ids    = module.subnets.app_subnet_ids
 
   alb_sg_id = module.security_groups.alb_sg_id
   app_sg_id = module.security_groups.app_sg_id
 
   instance_type = var.instance_type
-  key_name = var.key_name
-  min_size = var.min_size
-  max_size = var.max_size
-  desired_size = var.desired_size 
+  key_name      = var.key_name
+  min_size      = var.min_size
+  max_size      = var.max_size
+  desired_size  = var.desired_size
 
   db_endpoint = module.rds.db_endpoint
-  db_port = module.rds.db_port
-  db_name = module.rds.db_name
-  db_username  = module.rds.db_username
+  db_port     = module.rds.db_port
+  db_name     = module.rds.db_name
+  db_username = module.rds.db_username
   db_password = var.db_password
 
 }
 
 module "rds" {
-  source = "../../modules/rds"
-  project = var.project
-  environment = "dev"
+  source        = "../../modules/rds"
+  project       = var.project
+  environment   = "dev"
   db_subnet_ids = module.subnets.data_subnet_ids
-  db_sg_id = module.security_groups.db_sg_id
+  db_sg_id      = module.security_groups.db_sg_id
 
-  db_name      = "appdb"
-  db_username  = "appuser"
+  db_name     = "appdb"
+  db_username = "appuser"
   db_password = var.db_password
 }
 
