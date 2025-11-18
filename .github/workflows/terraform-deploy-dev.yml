@@ -43,4 +43,4 @@ jobs:
 
       - name: Terraform apply
         if: github.event.inputs.action == 'apply'
-        run: terraform apply -auto-approve -var-file=terraform.tfvars
+        run: terraform apply -auto-approve -var-file=terraform.tfvars -lock=false
