@@ -32,5 +32,6 @@ jobs:
 
       - name: Terraform Validate
         run: |
+          cd Devops-Projects/aws-infra-terraform/aws-2tier/envs
           terraform init -backend=false
           terraform validate
