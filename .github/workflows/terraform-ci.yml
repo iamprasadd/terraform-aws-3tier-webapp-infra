@@ -16,7 +16,7 @@ jobs:
 
     defaults:
       run:
-        working-directory: aws-infra-terraform/aws-2tier
+        working-directory: aws-infra-terraform/aws-2tier/envs/dev
 
     steps:
       - name: Checkout code
@@ -32,6 +32,5 @@ jobs:
 
       - name: Terraform Validate
         run: |
-          cd Devops-Projects/aws-infra-terraform/aws-2tier
           terraform init -backend=false
           terraform validate
